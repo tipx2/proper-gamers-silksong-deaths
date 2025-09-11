@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Boss Deaths Charts</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+    .chart-container { width: 500px; margin: 40px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h2 { text-align: center; }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">Boss Deaths Pie Charts</h1>
+
+  <div class="chart-container">
+    <h2>speakers</h2>
+    <canvas id="chart0"></canvas>
+  </div>
+  <script>
+    new Chart(document.getElementById('chart0'), {
+      type: 'pie',
+      data: {
+        labels: ["moss mother", "bell beast", "skarrgard", "lace", "fourth chorus", "moorwing", "savage beastfly", "sister spliter", "widow", "moss mother 2", "great conchflies", "skull tyrant", "last judge", "cogwork dancers", "forebrother signis", "trobbio", "phantom", "second sentinel", "lace 2", "raging conchfly", "savage beastfly 2", "grand mother silk", "disgraced chef luiogi", "first sinner", "broodmother", "shakra", "bell eater", "garmond", "tormented trobbio", "pinstress", "skarrsinger karmelita", "gurr the outcast", "palestag", "clover dancers", "shrine guardian seth", "nyleth", "the unravelled", "crust king khan", "lost lace", "voltvyrm", "watcher at the edge"],
+        datasets: [{
+          data: [1, 3, 4, 2, 1, 21, 25, 7, 9, 4, 1, 1, 13, 2, 8, 5, 3, 1, 8, 5, 10, 4, 3, 7, 5, 6, 7, 5, 14, 8, 15, 3, 2, 7, 8, 9, 4, 1, 22, 1, 2],
+          backgroundColor: Array.from([1, 3, 4, 2, 1, 21, 25, 7, 9, 4, 1, 1, 13, 2, 8, 5, 3, 1, 8, 5, 10, 4, 3, 7, 5, 6, 7, 5, 14, 8, 15, 3, 2, 7, 8, 9, 4, 1, 22, 1, 2], (_, j) => `hsl(${j * 360 / 41}, 70%, 60%)`)
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
