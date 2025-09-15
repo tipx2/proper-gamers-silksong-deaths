@@ -79,3 +79,38 @@ canvas {
   background: #5a2c2c;
   cursor: pointer;
 }
+
+
+.katok-section {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 20px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 15px;
+  text-align: center;
+}
+
+.katok-section h2 {
+  color: #f5c16c;
+  margin-bottom: 15px;
+}
+
+.katok-section p {
+  color: #f2e9dc;
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-bottom: 20px;
+}
+
+.katok-image img {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.katok-image small {
+  display: block;
+  margin-top: 8px;
+  color: #ddd2c0;
+  font-size: 0.85em;
+}

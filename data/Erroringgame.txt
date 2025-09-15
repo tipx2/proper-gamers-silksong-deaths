@@ -30,3 +30,4 @@ forebrother signis: 2
 lugoli: 4
 palestag: 1
 second sentinel: 2
+watcher at the edge: 1
