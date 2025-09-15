@@ -1,215 +1,50 @@
+# generate_html.py
 import json
 from pathlib import Path
+import colorsys
 
 def parse_file(filename):
     data = {}
     with open(filename, "r", encoding="utf-8") as f:
         for line in f:
             if ":" in line:
-                boss, deaths = line.strip().split(":", 1)
-                data[boss.strip()] = int(deaths.strip())
+                boss, tries = line.strip().split(":", 1)
+                boss_norm = boss.strip().lower()
+                try:
+                    v = int(tries.strip())
+                except:
+                    continue
+                data[boss_norm] = data.get(boss_norm, 0) + v
     return data
 
 def generate_color_map(datasets):
     bosses = sorted({boss for data in datasets.values() for boss in data})
-    silksong_colors = [
-        "#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF",
-        "#FF8C42", "#AA96DA", "#FF5D8F", "#00C2BA",
-        "#FFE066", "#F72585",
-    ]
-    color_map = {}
-    for i, boss in enumerate(bosses):
-        color_map[boss] = silksong_colors[i % len(silksong_colors)]
-    return color_map
-
-def generate_html(datasets, color_map):
-    # Build a list of all unique bosses across all datasets
-    all_bosses = sorted({boss for data in datasets.values() for boss in data})
-
-    html = """<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Boss Deaths Charts</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body { 
-      font-family: 'Cinzel', serif; 
-      padding: 30px; 
-      margin: 0;
-      background: linear-gradient(135deg, #1e0f0f, #3b1d1d); 
-      color: #f2e9dc;
-    }
-    h1 { 
-      text-align: center; 
-      margin-bottom: 40px; 
-      color: #f5c16c; 
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
-    }
-    .grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-      gap: 40px; 
-      justify-content: center;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .chart-container { 
-      width: 100%; 
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    h2 { 
-      text-align: center; 
-      margin-bottom: 15px;
-      color: #f5c16c;
-    }
-    canvas { 
-      display: block;
-      margin: 0 auto;
-    }
-    .bar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 50px;
-      margin-top: 50px;
-      max-width: 1400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  </style>
-</head>
-<body>
-  <h1>Boss Deaths Pie Charts</h1>
-  <div class="grid">
-"""
-
-    # Pie charts for each file
-    for i, (filename, data) in enumerate(datasets.items()):
-        labels = list(data.keys())
-        values = list(data.values())
-        colors = [color_map[boss] for boss in labels]
-
-        html += f"""
-    <div class="chart-container">
-      <h2>{filename}</h2>
-      <canvas id="pie{i}" width="300" height="300"></canvas>
-    </div>
-    <script>
-      new Chart(document.getElementById('pie{i}'), {{
-        type: 'pie',
-        data: {{
-          labels: {json.dumps(labels)},
-          datasets: [{{
-            data: {json.dumps(values)},
-            backgroundColor: {json.dumps(colors)},
-            borderColor: '#1e0f0f',
-            borderWidth: 2
-          }}]
-        }},
-        options: {{
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {{
-            legend: {{
-              display: false
-            }}
-          }}
-        }}
-      }});
-    </script>
-"""
-
-    # Bar charts for each boss comparing files
-    html += """
-  </div>
-  <div class="bar-grid">
-"""
-
-    for i, boss in enumerate(all_bosses):
-        # Prepare values for this boss across all files
-        values = [datasets[file].get(boss, 0) for file in datasets]
-        labels = list(datasets.keys())
-        color = color_map[boss]
-
-        html += f"""
-    <div class="chart-container">
-      <h2>{boss}</h2>
-      <canvas id="bar{i}" width="400" height="300"></canvas>
-    </div>
-    <script>
-      new Chart(document.getElementById('bar{i}'), {{
-        type: 'bar',
-        data: {{
-          labels: {json.dumps(labels)},
-          datasets: [{{
-            label: '{boss}',
-            data: {json.dumps(values)},
-            backgroundColor: '{color}',
-            borderColor: '#1e0f0f',
-            borderWidth: 2
-          }}]
-        }},
-        options: {{
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {{
-            legend: {{
-              display: false
-            }}
-          }},
-          scales: {{
-            y: {{
-              beginAtZero: true,
-              ticks: {{
-                color: '#f2e9dc',
-                stepSize: 1
-              }},
-              grid: {{
-                color: 'rgba(242, 233, 220, 0.2)'
-              }}
-            }},
-            x: {{
-              ticks: {{
-                color: '#f2e9dc'
-              }},
-              grid: {{
-                color: 'rgba(242, 233, 220, 0.2)'
-              }}
-            }}
-          }}
-        }}
-      }});
-    </script>
-"""
-
-    html += """
-  </div>
-</body>
-</html>
-"""
-    return html
+    n = len(bosses) or 1
+    colors = []
+    for i in range(n):
+        hue = (i * 0.618033988749895) % 1.0  # golden-ratio for good spread
+        r, g, b = colorsys.hsv_to_rgb(hue, 0.6, 0.95)
+        colors.append("#{0:02X}{1:02X}{2:02X}".format(int(r*255), int(g*255), int(b*255)))
+    return {bosses[i]: colors[i] for i in range(len(bosses))}
 
 if __name__ == "__main__":
-    data_folder = Path(__file__).parent / "data"
-
-    if not data_folder.exists() or not data_folder.is_dir():
-        print("Error: 'data' folder not found.")
-        exit(1)
+    data_folder = Path("data")
+    if not data_folder.exists():
+        print("No data/ folder found. Create it and add player .txt files.")
+        raise SystemExit(1)
 
     datasets = {}
-    for path in data_folder.glob("*.txt"):
-        datasets[path.stem] = parse_file(path)
+    for p in sorted(data_folder.glob("*.txt")):
+        datasets[p.stem] = parse_file(p)
 
     if not datasets:
-        print("No .txt files found in 'data' folder.")
-        exit(1)
+        print("No .txt files found in data/.")
+        raise SystemExit(1)
 
     color_map = generate_color_map(datasets)
-    html = generate_html(datasets, color_map)
-
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(html)
-
-    print("Finished: index.html generated")
+    out = Path("js/data.js")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    js = "const datasetsJS = " + json.dumps(datasets, indent=2) + ";\n"
+    js += "const colorMapJS = " + json.dumps(color_map, indent=2) + ";\n"
+    out.write_text(js, encoding="utf-8")
+    print("Wrote js/data.js")
