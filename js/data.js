@@ -31,7 +31,8 @@ const datasetsJS = {
     "forebrother signis": 2,
     "lugoli": 4,
     "palestag": 1,
-    "second sentinel": 2
+    "second sentinel": 2,
+    "watcher at the edge": 1
   },
   "Goombafire": {
     "moss mother": 1,
@@ -63,7 +64,7 @@ const datasetsJS = {
     "shakra": 2,
     "second sentinel": 1,
     "bell eater": 1,
-    "plasmified zango": 1,
+    "plasmified zango": 2,
     "pinstress": 1,
     "father of the flame": 2,
     "seth": 1,
@@ -71,7 +72,8 @@ const datasetsJS = {
     "crust king khan": 1,
     "karmelita": 6,
     "tormented trobbio": 2,
-    "lost lace": 21
+    "lost lace": 21,
+    "watcher at the edge": 1
   },
   "Jmar": {
     "moss mother": 1,

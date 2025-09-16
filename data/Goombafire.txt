@@ -27,7 +27,7 @@ Grand mother silk: 2
 Shakra: 2
 Second sentinel: 1
 Bell eater: 1
-plasmified zango: 1
+plasmified zango: 2
 Pinstress: 1
 Father of the flame: 2
 Seth: 1
@@ -36,3 +36,4 @@ crust king khan: 1
 Karmelita: 6
 Tormented trobbio: 2
 Lost lace: 21
+watcher at the edge: 1
