@@ -32,7 +32,8 @@ const datasetsJS = {
     "lugoli": 4,
     "palestag": 1,
     "second sentinel": 2,
-    "watcher at the edge": 1
+    "watcher at the edge": 1,
+    "crust king khan": 1
   },
   "Goombafire": {
     "moss mother": 1,
