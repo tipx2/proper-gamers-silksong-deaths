@@ -27,13 +27,25 @@
   <div class="bar-grid" id="bossCharts"></div>
 
   <div class="compare-container">
-    <h2>Interactive Boss Comparison</h2>
+    <h2>Interactive Comparison</h2>
     <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:20px;">
       <select id="player1"></select>
       <select id="player2"></select>
     </div>
     <canvas id="compareChart"></canvas>
   </div>
+
+  <!-- Global stats section -->
+  <div class="global-stats" id="globalStats">
+    <h2>Global Stats</h2>
+    <div class="global-buttons">
+      <button data-chart="hardest">Total Tries</button>
+      <button data-chart="average">Average Tries</button>
+    </div>
+    <canvas id="globalChart"></canvas>
+  </div>
+
+
 
   <div class="katok-section">
     <h2>The Katok</h2>

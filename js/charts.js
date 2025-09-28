@@ -209,8 +209,92 @@ function createComparisonChart(datasets, colorMap = {}) {
   update();
 }
 
+function createGlobalStats(datasets) {
+  const ctx = document.getElementById('globalChart');
+  if (!ctx) return;
+
+  // Aggregate totals across all players
+  const totals = {};
+  const bossPlayerCount = {}; // how many players attempted each boss
+  for (const player in datasets) {
+    for (const boss in datasets[player]) {
+      totals[boss] = (totals[boss] || 0) + datasets[player][boss];
+      bossPlayerCount[boss] = (bossPlayerCount[boss] || 0) + 1;
+    }
+  }
+
+  // Chart instance
+  let globalChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: [], datasets: [] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: { legend: { display: false } },
+      scales: {
+      y: { 
+        beginAtZero: true, 
+        ticks: { color: '#f2e9dc' }, 
+        grid: { color: 'rgba(242,233,220,0.2)' } 
+      },
+      x: { 
+        ticks: { 
+          color: '#f2e9dc', 
+          autoSkip: false,   // <— show ALL labels
+          maxRotation: 60,   // <— rotate if needed
+          minRotation: 45    // <— minimum tilt
+        }, 
+        grid: { color: 'rgba(242,233,220,0.2)' } 
+      }
+    }
+  }
+});
+
+function updateChart(mode) {
+  let sorted;
+
+  if (mode === 'hardest') {
+    sorted = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+  } else if (mode === 'average') {
+    sorted = Object.entries(totals)
+      .map(([boss, total]) => [boss, total / bossPlayerCount[boss]])
+      .sort((a, b) => b[1] - a[1]);
+  } else {
+    sorted = [];
+  }
+
+  const labels = sorted.map(x => x[0]);
+  const vals = sorted.map(x => x[1]);
+
+  globalChart.data.labels = labels;
+  globalChart.data.datasets = [{
+    label: mode === 'average' ? 'Average Tries' : 'Total Tries',
+    data: vals,
+    backgroundColor: '#F5C16C',
+    borderColor: '#C78F43',
+    borderWidth: 1
+  }];
+  globalChart.update();
+}
+
+
+  // Hook up buttons
+  const buttons = document.querySelectorAll('.global-buttons button');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      updateChart(btn.dataset.chart);
+    });
+  });
+
+  // Default view = Hardest
+  updateChart('hardest');
+}
+
+
+
 
 // Initialize all charts
 createPieCharts(datasetsJS,colorMapJS);
 createBossCharts(datasetsJS,colorMapJS);
 createComparisonChart(datasetsJS,colorMapJS);
+createGlobalStats(datasetsJS);

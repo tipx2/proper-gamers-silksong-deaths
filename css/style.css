@@ -114,3 +114,38 @@ canvas {
   color: #ddd2c0;
   font-size: 0.85em;
 }
+
+.global-stats {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 20px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 15px;
+  text-align: center;
+}
+
+.global-stats h2 {
+  color: #f5c16c;
+  margin-bottom: 15px;
+}
+
+.global-buttons {
+  margin-bottom: 15px;
+}
+
+.global-buttons button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #3b1d1d;
+  color: #f2e9dc;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.global-buttons button:hover {
+  background: #5a2c2c;
+}
