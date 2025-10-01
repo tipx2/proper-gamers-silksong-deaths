@@ -37,3 +37,7 @@ Karmelita: 6
 Tormented trobbio: 2
 Lost lace: 21
 watcher at the edge: 1
+gurr the outcast: 3
+garmond: 3
+voltvyrm: 1
+craw father: 2
